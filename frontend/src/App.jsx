@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
 
 function App() {
   const [data, setData] = useState({});
@@ -16,9 +18,9 @@ function App() {
   }, []);
 
   return (
-    <>
-      <h1 className="font-bold text-3xl text-red-500 text-center mt-5">asd</h1>
-    </>
+    <Routes>
+      <Route path="/" element={<Home />} />
+    </Routes>
   );
 }
 
