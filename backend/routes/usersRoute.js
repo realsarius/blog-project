@@ -1,34 +1,33 @@
 import express from "express";
-import { Post } from "../models/postModel.js";
+import { User } from "../models/userModel.js";
 
 const router = express.Router();
 
-/* POST post */
+/* POST user */
 router.post("/", async (request, response) => {
   try {
-    const { title, author, content, tags } = request.body;
+    const { name, email, password } = request.body;
 
-    if (!title || !author || !content || !tags) {
+    if (!name || !email || !password) {
       return response.status(400).send({
-        message: "Send all required fields: title, author, content, tags",
+        message: "Send all required fields: name, email, password.",
       });
     }
 
     // Create a new post
-    const post = new Post({
-      title,
-      author,
-      content,
-      tags,
+    const user = new User({
+      name,
+      email,
+      password,
     });
 
     // Save the post into the DB
-    await post.save();
+    await user.save();
 
     return response.status(201).json({
       statusCode: 201,
-      message: "Created post",
-      data: { post },
+      message: "Created user",
+      data: { user },
     });
   } catch (error) {
     console.log(error.message);
@@ -36,17 +35,17 @@ router.post("/", async (request, response) => {
   }
 });
 
-/* GET posts */
+/* GET users */
 router.get("/", async (request, response) => {
   try {
     // sort from the latest to the earliest
-    const posts = await Post.find().sort({ createdAt: "desc" });
+    const users = await User.find().sort({ createdAt: "desc" });
 
     return response.status(200).json({
       statusCode: 200,
-      message: "Fetched all posts",
-      count: posts.length,
-      data: posts,
+      message: "Fetched all users",
+      count: users.length,
+      data: users,
     });
   } catch (error) {
     console.log(error.message);
@@ -54,18 +53,18 @@ router.get("/", async (request, response) => {
   }
 });
 
-/* GET post */
+/* GET user */
 router.get("/:id", async (request, response) => {
   try {
     // req.params contains the route parameters and the id is one of them
-    const post = await Post.findById(request.params.id);
+    const user = await User.findById(request.params.id);
 
     return response.status(200).json({
       statusCode: 200,
-      message: "Fetched post",
-      count: post.length,
+      message: "Fetched user",
+      count: user.length,
       data: {
-        post: post || {},
+        user: user || {},
       },
     });
   } catch (error) {
@@ -74,29 +73,28 @@ router.get("/:id", async (request, response) => {
   }
 });
 
-/* PUT post */
+/* PUT user */
 router.put("/:id", async (request, response) => {
   try {
-    const { title, author, content, tags } = request.body;
+    const { name, email, password } = request.body;
 
-    if (!title || !author || !content || !tags) {
+    if (!name || !email || !password) {
       return response.status(400).send({
-        message: "Send all required fields: title, author, content, tags.",
+        message: "Send all required fields: name, email, password..",
       });
     }
 
-    // findByIdAndUpdate accepts the post id as the first parameter and the new values as the second parameter
-    const post = await Post.findByIdAndUpdate(request.params.id, {
-      title,
-      author,
-      content,
-      tags,
+    // findByIdAndUpdate accepts the user id as the first parameter and the new values as the second parameter
+    const user = await User.findByIdAndUpdate(request.params.id, {
+      name,
+      email,
+      password,
     });
 
     return response.status(200).json({
       statusCode: 200,
-      message: "Updated post",
-      data: { post },
+      message: "Updated user",
+      data: { user },
     });
 
     // const { id } = request.params;
@@ -114,19 +112,19 @@ router.put("/:id", async (request, response) => {
   }
 });
 
-/* DELETE post */
+/* DELETE user */
 router.delete("/:id", async (request, response) => {
   try {
     // Mongo stores the id as `_id` by default
-    const result = await Post.deleteOne({ _id: request.params.id });
+    const result = await User.deleteOne({ _id: request.params.id });
 
     if (!result) {
-      return response.status(404).json({ message: "Post not found." });
+      return response.status(404).json({ message: "User not found." });
     }
 
     return response.status(200).json({
       statusCode: 200,
-      message: `Deleted ${result.deletedCount} post(s)`,
+      message: `Deleted ${result.deletedCount} user(s)`,
       data: {},
     });
   } catch (error) {
