@@ -3,6 +3,10 @@ import axios from "axios";
 import Spinner from "../components/Spinner";
 import { Link } from "react-router-dom";
 import DOMPurify from "dompurify";
+import Navigation from "../components/Navigation";
+import { AiOutlineEdit } from "react-icons/ai";
+import { BsInfoCircle } from "react-icons/bs";
+import { MdOutlineAddBox, MdOutlineDelete } from "react-icons/md";
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
@@ -23,37 +27,104 @@ const Home = () => {
   }, []);
 
   const renderPosts = (postContent) => {
-    const sanitizedPostContent = DOMPurify.sanitize(postContent);
+    // Get the first 800 characters of a post.
+    if (postContent.length >= 800) {
+      return DOMPurify.sanitize(postContent.substring(0, 800) + "...");
+    }
 
-    return sanitizedPostContent;
+    return postContent;
+  };
+
+  const renderDates = (dateString) => {
+    const date = new Date(dateString);
+
+    const options = {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      // hour: "numeric",
+      // minute: "numeric",
+      // second: "numeric",
+      // timeZoneName: "short",
+    };
+
+    const formattedDate = new Intl.DateTimeFormat("en-US", options).format(
+      date
+    );
+
+    return formattedDate;
   };
 
   return (
-    <div className="bg-gray-100 min-h-screen p-8 max-w-7xl">
-      <h1 className="text-3xl font-semibold mb-8">My Blog</h1>
+    <div className="bg-gray-100 min-h-screen max-w-7xl">
+      {/* <div className="flex justify-between mb-8">
+        <h1 className="text-3xl font-semibold text-center">My Blog</h1>
+        <Link to={"/posts/create"}>
+          <MdOutlineAddBox className="text-4xl text-sky-800" />
+        </Link>
+      </div> */}
+
+      <Navigation />
 
       {/* Loop through blog posts */}
-      {posts.map((post, index) => (
-        <div key={index} className="bg-white p-4 mb-8 rounded-lg shadow-md">
-          <h1 className="text-xl font-semibold mb-2">{post.title}</h1>
-          <p
-            dangerouslySetInnerHTML={{ __html: renderPosts(post.content) }}
-            className="text-gray-700 mb-4"
-          />
+      {loading ? (
+        <Spinner />
+      ) : (
+        posts.map((post, index) => (
+          <div
+            key={index}
+            className="bg-white p-6 px-8 mb-8 rounded-lg shadow-md"
+          >
+            <div className="text-gray-600 text-xs uppercase tracking-widest">
+              {renderDates(post.createdAt)}
+            </div>
+            <Link to={`/posts/details/${post._id}`} className="flex gap-2">
+              <h1 className="text-3xl text-gray-900 uppercase">{post.title}</h1>
+            </Link>
 
-          {/* Display tags */}
-          <div className="flex">
-            {post.tags.map((tag, tagIndex) => (
-              <span
-                key={tagIndex}
-                className="bg-blue-500 text-white px-2 py-1 mr-2 rounded"
-              >
-                {tag}
-              </span>
-            ))}
+            <p
+              dangerouslySetInnerHTML={{ __html: renderPosts(post.content) }}
+              className="text-gray-900 mb-4"
+            />
+
+            {/* Display tags */}
+            <div className="flex justify-between">
+              <div className="flex items-center italic text-gray-600">
+                Tags:
+                {post.tags.map((tag, tagIndex) => (
+                  <span key={tagIndex} className="px-2 py-1 mr-2 rounded">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+              {/* Admin controls */}
+              <div className="flex gap-4 justify-center">
+                <Link to={`/posts/details/${post._id}`} className="flex gap-2">
+                  <BsInfoCircle
+                    className="text-2xl text-green-800"
+                    aria-label="info-button"
+                  />
+                  Info
+                </Link>
+                <Link to={`/posts/edit/${post._id}`} className="flex gap-2">
+                  <AiOutlineEdit
+                    className="text-2xl text-yellow-600"
+                    aria-label="edit-button"
+                  />
+                  Edit
+                </Link>
+                <Link to={`/posts/delete/${post._id}`} className="flex gap-2">
+                  <MdOutlineDelete
+                    className="text-2xl text-red-600"
+                    aria-label="delete-button"
+                  />
+                  Delete
+                </Link>
+              </div>
+            </div>
           </div>
-        </div>
-      ))}
+        ))
+      )}
     </div>
   );
 };
