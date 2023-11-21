@@ -2,11 +2,14 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Spinner from "../components/Spinner";
 import { Link } from "react-router-dom";
-import DOMPurify from "dompurify";
 import Navigation from "../components/Navigation";
 import { AiOutlineEdit } from "react-icons/ai";
 import { BsInfoCircle } from "react-icons/bs";
-import { MdOutlineAddBox, MdOutlineDelete } from "react-icons/md";
+import { MdOutlineDelete } from "react-icons/md";
+import {
+  renderDates,
+  renderPostsLimitedCharacters,
+} from "../components/util/util";
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
@@ -25,35 +28,6 @@ const Home = () => {
         setLoading(false);
       });
   }, []);
-
-  const renderPosts = (postContent) => {
-    // Get the first 800 characters of a post.
-    if (postContent.length >= 800) {
-      return DOMPurify.sanitize(postContent.substring(0, 800) + "...");
-    }
-
-    return postContent;
-  };
-
-  const renderDates = (dateString) => {
-    const date = new Date(dateString);
-
-    const options = {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      // hour: "numeric",
-      // minute: "numeric",
-      // second: "numeric",
-      // timeZoneName: "short",
-    };
-
-    const formattedDate = new Intl.DateTimeFormat("en-US", options).format(
-      date
-    );
-
-    return formattedDate;
-  };
 
   return (
     <div className="bg-gray-100 min-h-screen max-w-7xl">
@@ -83,7 +57,9 @@ const Home = () => {
             </Link>
 
             <p
-              dangerouslySetInnerHTML={{ __html: renderPosts(post.content) }}
+              dangerouslySetInnerHTML={{
+                __html: renderPostsLimitedCharacters(post.content),
+              }}
               className="text-gray-900 mb-4"
             />
 
