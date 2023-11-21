@@ -32,7 +32,8 @@ const renderPost = (postContent) => {
 };
 
 const renderTags = (tags) => {
-  return tags.join(", ");
+  // \xa0 - it is a NO-BREAK SPACE char.
+  return tags.join(`\xa0\xa0\xa0`);
 };
 
 export { renderDates, renderPostsLimitedCharacters, renderPost, renderTags };
