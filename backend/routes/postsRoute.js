@@ -64,9 +64,7 @@ router.get("/:id", async (request, response) => {
       statusCode: 200,
       message: "Fetched post",
       count: post.length,
-      data: {
-        post: post || {},
-      },
+      data: post,
     });
   } catch (error) {
     console.log(error.message);
