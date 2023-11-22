@@ -5,11 +5,20 @@ import { Post } from "./models/postModel.js";
 import postsRoute from "./routes/postsRoute.js";
 import usersRouter from "./routes/usersRoute.js";
 import cors from "cors";
+import bodyParser from "body-parser";
 
 const app = express();
 
 // Middleware for parsing request body
-app.use(express.json());
+app.use(bodyParser.json({ limit: "50mb", extended: true }));
+app.use(
+  bodyParser.urlencoded({
+    limit: "50mb",
+    extended: true,
+    parameterLimit: 50000,
+  })
+);
+app.use(bodyParser.text({ limit: "200mb" }));
 
 // Middleware for handling CORS Policy
 app.use(cors());
