@@ -25,9 +25,13 @@ const Home = () => {
   return (
     <div className="bg-gray-100 min-h-screen max-w-7xl">
       <Navigation />
-
-      {/* Loop through blog posts */}
-      {loading ? <Spinner /> : <Posts posts={posts} />}
+      <div className="w-full flex gap-4">
+        <div className="w-9/12">
+          {/* Loop through blog posts */}
+          {loading ? <Spinner /> : <Posts posts={posts} />}
+        </div>
+        <div className="w-3/12">Sidebar</div>
+      </div>
     </div>
   );
 };

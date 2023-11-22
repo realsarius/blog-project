@@ -8,6 +8,7 @@ import {
   renderTags,
 } from "../components/util/util";
 import PropTypes from "prop-types";
+import BackButton from "./BackButton";
 
 const Posts = ({ posts }) => {
   const checkPostOrPosts = () => {
@@ -23,7 +24,12 @@ const Posts = ({ posts }) => {
                 ? "undefined"
                 : renderDates(posts.createdAt)}
             </div>
-            <h1 className="text-3xl text-gray-900 uppercase">{posts.title}</h1>
+            <div className="flex items-center gap-4">
+              <BackButton />
+              <h1 className="text-3xl text-gray-900 uppercase">
+                {posts.title}
+              </h1>
+            </div>
 
             <p
               dangerouslySetInnerHTML={{ __html: posts.content }}
@@ -76,7 +82,7 @@ const Posts = ({ posts }) => {
               ? "undefined"
               : renderDates(post.createdAt)}
           </div>
-          <Link to={`/posts/details/${post._id}`} className="flex gap-2">
+          <Link to={`/posts/${post._id}`} className="flex gap-2">
             <h1 className="text-3xl text-gray-900 uppercase">{post.title}</h1>
           </Link>
 

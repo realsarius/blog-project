@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { BsArrowLeft } from "react-icons/bs";
+import { FaArrowLeft } from "react-icons/fa6";
 import PropTypes from "prop-types";
 
 const BackButton = ({ destination = "/" }) => {
@@ -7,9 +7,10 @@ const BackButton = ({ destination = "/" }) => {
     <div className="flex">
       <Link
         to={destination}
-        className="bg-sky-800 text-white px-4 py-1 rounded-lg w-fit"
+        aria-label="back-button"
+        className="text-gray-800 rounded-lg w-fit"
       >
-        <BsArrowLeft className="text-2xl" />
+        <FaArrowLeft aria-label="back-button" className="text-2xl" />
       </Link>
     </div>
   );
