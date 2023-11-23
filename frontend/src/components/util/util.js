@@ -33,7 +33,55 @@ const renderPost = (postContent) => {
 
 const renderTags = (tags) => {
   // \xa0 - it is a NO-BREAK SPACE char.
-  return tags.join(`\xa0\xa0\xa0`);
+  console.log(tags);
+  return tags.constructor == String
+    ? tags.split(",")
+    : tags.join(`\xa0\xa0\xa0`);
 };
 
-export { renderDates, renderPostsLimitedCharacters, renderPost, renderTags };
+const quillModules = {
+  toolbar: [
+    [{ header: "1" }, { header: "2" }, { font: [] }],
+    [{ header: [1, 2, 3, 4, 5, 6, false] }],
+    ["bold", "italic", "underline", "strike", "blockquote"],
+    [
+      { list: "ordered" },
+      { list: "bullet" },
+      { indent: "-1" },
+      { indent: "+1" },
+    ],
+    [{ align: [] }],
+    ["link", "image", "video"],
+    ["clean"],
+  ],
+  clipboard: {
+    // toggle to add extra line breaks when pasting HTML:
+    matchVisual: false,
+  },
+};
+
+const quillFormats = [
+  "header",
+  "font",
+  "size",
+  "bold",
+  "italic",
+  "underline",
+  "strike",
+  "blockquote",
+  "list",
+  "bullet",
+  "indent",
+  "link",
+  "image",
+  "video",
+];
+
+export {
+  renderDates,
+  renderPostsLimitedCharacters,
+  renderPost,
+  renderTags,
+  quillModules,
+  quillFormats,
+};
