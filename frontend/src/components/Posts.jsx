@@ -77,10 +77,16 @@ const Posts = ({ posts }) => {
           key={index}
           className="bg-white p-6 px-8 mb-8 rounded-lg shadow-md"
         >
-          <div className="text-gray-600 text-xs uppercase tracking-widest">
-            {post.createdAt === undefined
-              ? "undefined"
-              : renderDates(post.createdAt)}
+          <div className="text-gray-600 text-xs uppercase tracking-widest flex gap-4">
+            <p className="m-0">
+              {post.createdAt === undefined
+                ? "undefined"
+                : renderDates(post.createdAt)}
+            </p>
+            |
+            <p className="m-0">
+              {post.author === undefined ? "undefined" : post.author}
+            </p>
           </div>
           <Link to={`/posts/${post._id}`} className="flex gap-2">
             <h1 className="text-3xl text-gray-900 uppercase">{post.title}</h1>
@@ -100,7 +106,7 @@ const Posts = ({ posts }) => {
               {post.tags === undefined ? "Loading" : renderTags(post.tags)}
             </div>
             {/* Admin controls */}
-            <div className="flex gap-4 justify-center">
+            {/* <div className="flex gap-4 justify-center">
               <Link to={`/posts/details/${post._id}`} className="flex gap-2">
                 <BsInfoCircle
                   className="text-2xl text-green-800"
@@ -122,7 +128,7 @@ const Posts = ({ posts }) => {
                 />
                 Delete
               </Link>
-            </div>
+            </div> */}
           </div>
         </div>
       ));

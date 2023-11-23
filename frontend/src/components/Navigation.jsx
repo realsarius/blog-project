@@ -6,7 +6,7 @@ const Navigation = () => {
     title: "text-6xl font-light text-center mb-8",
     links:
       "text-gray-900 px-4 p-2 rounded-md active:bg-gray-300 hover:bg-gray-200",
-    nav: "pl-4 pb-2 mb-8 uppercase border-solid border-b-[1.75px] border-gray-300 tracking-widest w-full",
+    nav: "pl-4 pb-2 mb-8 uppercase border-solid border-b-[1.75px] border-gray-300 tracking-widest w-full flex justify-between items-center",
   };
 
   return (
@@ -20,6 +20,11 @@ const Navigation = () => {
           </Link>
           <Link to={"/about"} className={classes.links}>
             About
+          </Link>
+        </div>
+        <div>
+          <Link to={"/posts/create"} className={classes.links}>
+            Create Post
           </Link>
         </div>
       </nav>

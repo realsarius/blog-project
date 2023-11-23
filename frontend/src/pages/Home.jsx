@@ -3,6 +3,7 @@ import axios from "axios";
 import Spinner from "../components/Spinner";
 import Navigation from "../components/Navigation";
 import Posts from "../components/Posts";
+import Sidebar from "../components/Sidebar";
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
@@ -30,7 +31,7 @@ const Home = () => {
           {/* Loop through blog posts */}
           {loading ? <Spinner /> : <Posts posts={posts} />}
         </div>
-        <div className="w-3/12">Sidebar</div>
+        <Sidebar />
       </div>
     </div>
   );

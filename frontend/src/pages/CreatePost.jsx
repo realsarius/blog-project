@@ -3,9 +3,11 @@ import BackButton from "../components/BackButton";
 import Spinner from "../components/Spinner";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import ReactQuill, { Quill } from "react-quill";
+import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { renderPost } from "../components/util/util";
+import Navigation from "../components/Navigation";
+import { useSnackbar } from "notistack";
 
 const CreatePost = () => {
   const [title, setTitle] = useState("");
@@ -14,6 +16,7 @@ const CreatePost = () => {
   const [tags, setTags] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
 
   const quillModules = {
     toolbar: [
@@ -66,11 +69,13 @@ const CreatePost = () => {
       .post("http://localhost:5555/posts", data)
       .then(() => {
         setLoading(false);
+        enqueueSnackbar("Post created Successfully", { variant: "success" });
         navigate("/");
       })
       .catch((error) => {
         setLoading(false);
-        alert("An error happened. Please check the console");
+        // alert("An error happened. Please check the console");
+        enqueueSnackbar("Error", { variant: "error" });
         console.log(error);
       });
   };
@@ -78,10 +83,11 @@ const CreatePost = () => {
   console.log(content);
 
   return (
-    <div className="p-4 min-h-screen w-screen max-w-7xl">
+    <div className="min-h-screen w-screen max-w-7xl">
+      <Navigation />
       <div className="flex items-center gap-4">
         <BackButton />
-        <h1 className="text-3xl my-4">Create Book</h1>
+        <h1 className="text-3xl my-4">Create Post</h1>
       </div>
       {loading ? <Spinner /> : ""}
       <div className="flex flex-col border-2 border-sky-400 rounded-xl w-full p-4 mx-auto">
