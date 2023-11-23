@@ -78,7 +78,6 @@ const EditPost = () => {
         <BackButton />
         <h1 className="text-3xl my-4">Edit Post</h1>
       </div>
-      {loading ? <Spinner /> : ""}
       <div className="flex flex-col border-2 border-sky-400 rounded-xl w-full p-4 mx-auto">
         <div className="flex gap-4 justify-between w-full">
           <div className="my-4 w-6/12">
@@ -125,6 +124,7 @@ const EditPost = () => {
             className="text-gray-900 mb-4"
           />
         </div>
+        {loading ? <Spinner /> : ""}
         <div className="my-4 w-full">
           <label htmlFor="postTags" className={classes.label}>
             Tags
